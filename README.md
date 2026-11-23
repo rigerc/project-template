@@ -6,13 +6,17 @@ it fits a library, CLI, service, or anything else.
 
 ## What you get
 
-- **Site:** an [Astro Starlight](https://starlight.astro.build) documentation site in `website/`
+- **Landing site:** an Astro site in `site/` that acts as the project home page. It reads
+  `project.json`, so a bootstrapped copy is correct without edits under `site/`.
+- **Docs:** an [Astro Starlight](https://starlight.astro.build) documentation site in `website/`
   with search, dark mode, and a changelog page generated from `CHANGELOG.md`.
+- **One deployment:** `tool/site.sh` builds both trees and publishes the landing site at `/` and
+  the docs at `/docs/` in a single GitHub Pages artifact.
 - **CI:** a `tool/verify.sh` dispatcher that runs your `make check`, `npm test`, `cargo test`,
   `go test`, or `pytest`, plus tests for the release tooling.
 - **Releases:** `tool/release.py prepare` stamps the changelog; pushing a `vX.Y.Z` tag creates a
   GitHub release with notes from the changelog, optional artifacts, and optional build provenance.
-- **Media:** `tool/media.sh` captures screenshots and a tour video of the site, locally or in CI.
+- **Media:** `tool/media.sh` captures screenshots and a tour video of the built site, locally or in CI.
 - **Hygiene:** Dependabot, CodeQL, issue and pull request templates, a security policy,
   `.editorconfig`, and pinned action versions.
 
@@ -30,7 +34,7 @@ it fits a library, CLI, service, or anything else.
    template's own self-test files.
 3. Write your code, then teach `tool/verify.sh` about your stack, or add a `Makefile` with a `check` target.
 4. Enable GitHub Pages (Settings → Pages → Source: GitHub Actions) and set the `PAGES_ENABLED` variable to `true`.
-5. Edit the pages in `website/src/content/docs`.
+5. Edit the landing page in `site/src/config/landing.ts` and `site/src/content/projects/`, and the docs in `website/src/content/docs`.
 
 See [docs/RELEASING.md](docs/RELEASING.md) and [docs/MEDIA.md](docs/MEDIA.md).
 

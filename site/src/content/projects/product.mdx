@@ -1,0 +1,38 @@
+---
+title: "Project overview"
+description: "The one project this site shows."
+icon: "rocket"
+tags: []
+order: 1
+locale: en
+meta:
+  - "Documentation site"
+  - "Static build"
+  - "GitHub Pages"
+gallery:
+  - src: ../../assets/showcase/overview.svg
+    alt: "A wireframe of the project's documentation site"
+---
+
+## What this is
+
+This page is generated from the repository's `project.json`: the name and
+description above, the facts line, and every link come from that one file. It
+ships with the template so a new project has a working home page instead of a
+placeholder.
+
+## What lives where
+
+- **This site** is the project home: what the project is, what it looks like,
+  and what changed recently.
+- **The docs** hold the guides, reference material and the complete release
+  history.
+- **The source** is public, and the changelog is generated from the repository
+  rather than written twice.
+
+## Start here
+
+Read the <a href={docsLink}>documentation</a> for setup and guides, or the
+<a href={docsChangelogLink}>full changelog</a> for every release.
+
+import { docsChangelogLink, docsLink } from '@/lib/links';

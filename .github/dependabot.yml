@@ -11,5 +11,10 @@ updates:
     groups:
       site: { patterns: ['*'] }
   - package-ecosystem: npm
+    directory: /site
+    schedule: { interval: weekly }
+    groups:
+      landing: { patterns: ['*'] }
+  - package-ecosystem: npm
     directory: /tool/media
     schedule: { interval: monthly }

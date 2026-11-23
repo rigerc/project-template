@@ -1,0 +1,45 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import Button from '@/components/ui/form/Button/Button.astro';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import { landing } from '@/config/landing';
+import { docsChangelogLink } from '@/lib/links';
+
+/**
+ * The last five releases, generated from CHANGELOG.md by
+ * website/scripts/sync-changelog.mjs. The docs site carries the full history;
+ * this page links there rather than repeating it.
+ */
+const entry = await getEntry('pages', 'changelog');
+const rendered = entry ? await render(entry) : null;
+---
+
+<BaseLayout title={landing.changelog.heading} description={landing.changelog.description}>
+  <Header slot="header" position="fixed" shape="bar" variant="solid" size="lg" showCta={false} />
+
+  <main class="mx-auto max-w-3xl px-6 pt-32 pb-[var(--space-section-md)]">
+    <header class="mb-10" data-reveal>
+      <p class="text-sm font-semibold uppercase tracking-widest text-primary mb-3">Releases</p>
+      <h1 class="font-display text-4xl md:text-5xl font-bold text-foreground text-balance">
+        {landing.changelog.heading}
+      </h1>
+      <p class="text-lg text-foreground-muted mt-4">{landing.changelog.description}</p>
+    </header>
+
+    <div class="prose prose-lg max-w-none" data-reveal-content>
+      {rendered ? <rendered.Content /> : <p>No releases yet.</p>}
+    </div>
+
+    <footer class="border-border mt-12 border-t pt-8 flex justify-center" data-reveal>
+      <Button href={docsChangelogLink} variant="brand-outline" size="sm">
+        <Icon name="arrow-right" size="sm" />
+        {landing.changelog.fullHistory}
+      </Button>
+    </footer>
+  </main>
+
+  <Footer slot="footer" layout="columns" background="secondary" maxWidth="7xl" />
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import TechStack from '@/components/landing/TechStack.astro';
+import { projectDescription, projectName } from '@/config/project';
+
+/**
+ * The site's only page. This template ships a project home rather than a
+ * multi-page marketing site: one project entry, its screenshots, and a link
+ * into the docs.
+ *
+ * The project's title and description come from `project.json`, not from the
+ * entry's frontmatter, so a bootstrapped copy renders its own name without an
+ * edit. The frontmatter still carries them because the collection schema
+ * requires them.
+ */
+const entries = await getCollection('projects', ({ data }) => !data.draft);
+const [entry] = entries.sort((a, b) => a.data.order - b.data.order);
+
+if (!entry) {
+  throw new Error('No project entry found. Add one file to src/content/projects/.');
+}
+
+const { Content, headings } = await render(entry);
+---
+
+<ProjectLayout
+  title={projectName}
+  description={projectDescription}
+  meta={entry.data.meta}
+  url={entry.data.url}
+  repo={entry.data.repo}
+  gallery={entry.data.gallery}
+  imageAlt={entry.data.imageAlt}
+  slug={entry.id}
+  headings={headings}
+  toc={entry.data.toc}
+>
+  <TechStack
+    slot="after-hero"
+    badge="Built with"
+    title="The toolchain"
+    description="The same stack this template documents, pinned and reproduced on every build."
+  />
+
+  <Content />
+</ProjectLayout>

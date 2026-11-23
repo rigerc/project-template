@@ -13,3 +13,9 @@ website/.astro/
 website/dist/
 website/src/content/docs/changelog.md
 tool/media/node_modules/
+site/.astro/
+site/.env
+site/dist/
+site/node_modules/
+site/src/content/pages/changelog.md
+site/.vercel/

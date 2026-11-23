@@ -1,0 +1,94 @@
+{
+  "nav": {
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "selectLanguage": "Select language",
+    "mainNav": "Main navigation",
+    "mobileNav": "Mobile navigation",
+    "toggleMenu": "Toggle menu",
+    "sectionNavigate": "Navigate",
+    "sectionConnect": "Connect",
+    "searchSite": "Search"
+  },
+  "common": {
+    "readMore": "Read more",
+    "loading": "Loading…",
+    "backToTop": "Back to top",
+    "search": "Search",
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "closeDialog": "Close",
+    "copyCode": "Copy code",
+    "dismiss": "Dismiss",
+    "notifications": "Notifications",
+    "progress": "Progress",
+    "tabs": "Tabs",
+    "verticalTabs": "Vertical tabs",
+    "techStack": "Built with",
+    "themeMode": "Colour mode",
+    "themeModeTitle": "Colour mode",
+    "togglePassword": "Show password",
+    "browseByTag": "Browse by tag"
+  },
+  "blog": {
+    "tableOfContents": "On this page",
+    "tocHide": "Hide",
+    "tocShow": "Show",
+    "title": "Blog"
+  },
+  "projects": {
+    "title": "Projects",
+    "viewProject": "View project",
+    "viewSource": "Source",
+    "carouselChooseSlide": "Go to slide {index}",
+    "carouselNextSlide": "Next slide",
+    "carouselPreviousSlide": "Previous slide",
+    "galleryClose": "Close gallery",
+    "galleryLabel": "Project gallery",
+    "galleryNextImage": "Next image",
+    "galleryPreviousImage": "Previous image"
+  },
+  "pagination": {
+    "label": "Pagination",
+    "morePages": "More pages",
+    "nextPage": "Next page",
+    "previousPage": "Previous page",
+    "page": "Page {current} of {total}"
+  },
+  "errors": {
+    "pageNotFound": "Page not found",
+    "pageNotFoundMessage": "The page you're looking for doesn't exist or has moved."
+  },
+  "newsletter": {
+    "description": "Get updates."
+  },
+  "contact": {},
+  "theme": {
+    "selectColourTheme": "Select colour theme",
+    "colourTheme": "Colour theme",
+    "colourMode": "Colour mode",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
+    "currentlyDark": "Dark mode",
+    "currentlyLight": "Light mode",
+    "modeTrigger": "Colour mode"
+  },
+  "search": {
+    "placeholder": "Search…",
+    "inputLabel": "Search"
+  },
+  "video": {
+    "playLabel": "Play video: {title}",
+    "watchOn": "Watch on YouTube"
+  },
+  "footer": {
+    "copyright": "© {year} {siteName}",
+    "followOn": "Follow on {platform}",
+    "groups": {
+      "site": "Site"
+    }
+  },
+  "pages": {}
+}

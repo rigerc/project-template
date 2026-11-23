@@ -15,7 +15,8 @@ test ! -e tool/selftest.sh
 test ! -e .github/workflows/template-check.yml
 
 leftovers=$(grep -rIlE 'Project Template|example/project-template|Example Author|rigerc/project-template' \
-  --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=.astro --exclude=package-lock.json . || true)
+  --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=.astro --exclude=package-lock.json \
+  --exclude=LANDING.md --exclude=brandcheck.mjs . || true)
 if [[ -n "$leftovers" ]]; then
   echo "Template placeholders remain in:" >&2
   echo "$leftovers" >&2
@@ -23,7 +24,9 @@ if [[ -n "$leftovers" ]]; then
 fi
 
 tool/verify.sh
-tool/site.sh
+PUBLIC_SITE_URL=https://acme.github.io/sample-product/ tool/site.sh
+grep -q "Sample Product" site/dist/index.html
 grep -q "Sample Product" website/dist/index.html
-grep -q "https://github.com/acme/sample-product" website/dist/index.html
+grep -q "https://github.com/acme/sample-product" site/dist/index.html
+test -s site/dist/docs/index.html
 echo "Template self-test passed."

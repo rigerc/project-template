@@ -1,0 +1,43 @@
+---
+/**
+ * 404. GitHub Pages has one 404 per site, so this page also answers a wrong
+ * URL under /docs/ — hence the docs link.
+ */
+import PageLayout from '@/layouts/PageLayout.astro';
+import Button from '@/components/ui/form/Button/Button.astro';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import Badge from '@/components/ui/data-display/Badge/Badge.astro';
+import { landing } from '@/config/landing';
+import { docsLink } from '@/lib/links';
+import { withBase } from '@/lib/base';
+---
+
+<PageLayout title={landing.notFound.title} description={landing.notFound.description} noindex eagerReveal>
+  <section class="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 py-24 text-center">
+    <Badge variant="brand" pill>
+      <Icon name="compass" size="sm" />
+      {landing.notFound.badge}
+    </Badge>
+
+    <h1 class="font-display text-4xl md:text-5xl font-bold text-foreground mt-6 text-balance">
+      {landing.notFound.title}
+    </h1>
+    <p class="text-lg text-foreground-muted mt-4 max-w-xl text-balance">
+      {landing.notFound.description}
+    </p>
+
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <Button href={withBase('/')} size="lg">
+        <Icon name="arrow-left" size="sm" />
+        {landing.notFound.home}
+      </Button>
+      <Button href={withBase('/changelog')} variant="brand-outline" size="lg">
+        {landing.notFound.changelog}
+        <Icon name="arrow-right" size="sm" />
+      </Button>
+      <Button href={docsLink} variant="outline" size="lg">
+        {landing.notFound.docs}
+      </Button>
+    </div>
+  </section>
+</PageLayout>
