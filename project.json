@@ -1,0 +1,8 @@
+{
+  "name": "Project Template",
+  "description": "A starting point for a project with a documentation site, CI, and releases.",
+  "repo": "example/project-template",
+  "license": "MIT",
+  "author": "Example Author",
+  "siteUrl": ""
+}

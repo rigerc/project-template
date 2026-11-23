@@ -1,0 +1,40 @@
+name: Media
+
+# Captures screenshots and a tour video of the built site. Run it manually
+# from the Actions tab, or locally with tool/media.sh.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: What to capture
+        type: choice
+        options: [all, screenshots, video]
+        default: all
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: website/.nvmrc
+          cache: npm
+          cache-dependency-path: |
+            website/package-lock.json
+            tool/media/package-lock.json
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: tool/site.sh
+      - run: tool/media.sh "${{ inputs.mode }}"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: site-media
+          path: build/media/
+          if-no-files-found: error
+          retention-days: 30

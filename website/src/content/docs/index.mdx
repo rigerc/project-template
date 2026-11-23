@@ -1,0 +1,19 @@
+---
+title: Home
+description: Documentation home.
+template: splash
+---
+
+import { LinkButton, Card, CardGrid } from "@astrojs/starlight/components";
+import project from "../../../../project.json";
+
+<p style="font-size: var(--sl-text-xl); max-width: 40rem; margin-top: 0;">{project.description}</p>
+
+<LinkButton href="guides/getting-started/" variant="primary">Get started</LinkButton>
+<LinkButton href={`https://github.com/${project.repo}`} variant="minimal">View on GitHub</LinkButton>
+
+<CardGrid>
+  <Card title="Documented" icon="open-book">Guides live in `website/src/content/docs` and ship with search.</Card>
+  <Card title="Checked" icon="approve-check">CI runs your checks and builds this site on every push.</Card>
+  <Card title="Released" icon="rocket">Tag a version and a GitHub release is created from the changelog.</Card>
+</CardGrid>

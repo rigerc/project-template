@@ -1,0 +1,17 @@
+---
+import Default from "@astrojs/starlight/components/PageTitle.astro";
+import project from "../../../project.json";
+
+// The home page shows the project name as its single heading.
+const isHome = Astro.locals.starlightRoute.id === "";
+---
+{isHome ? <h1 id="_top" class="home-title">{project.name}</h1> : <Default><slot /></Default>}
+
+<style>
+  .home-title {
+    font-size: var(--sl-text-5xl);
+    line-height: var(--sl-line-height-headings);
+    font-weight: 600;
+    color: var(--sl-color-white);
+  }
+</style>

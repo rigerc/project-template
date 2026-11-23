@@ -1,0 +1,15 @@
+.DS_Store
+*.log
+*.pyc
+__pycache__/
+.idea/
+.vscode/
+.serena/
+dist/
+build/
+coverage/
+node_modules/
+website/.astro/
+website/dist/
+website/src/content/docs/changelog.md
+tool/media/node_modules/

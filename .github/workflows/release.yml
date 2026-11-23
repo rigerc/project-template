@@ -1,0 +1,102 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Validate VERSION and CHANGELOG.md only
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate the release
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          if [[ "$REF_TYPE" == tag ]]; then
+            git merge-base --is-ancestor HEAD "origin/$DEFAULT_BRANCH"
+            tool/verify.sh
+            python3 tool/release.py check --tag "$REF_NAME"
+          else
+            tool/verify.sh
+          fi
+
+  publish:
+    if: github.ref_type == 'tag' && inputs.dry_run != true
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    # Create a 'release' environment to require approval before publishing.
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check for an existing release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "A release already exists for $TAG. Review it before retrying." >&2
+            exit 1
+          fi
+      - name: Write release notes
+        run: python3 tool/release.py check --tag "$TAG"
+        env:
+          TAG: ${{ github.ref_name }}
+      - name: Build release artifacts
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          # tool/build_release.sh is optional: put files to attach in dist/release/.
+          if [[ -x tool/build_release.sh ]]; then
+            tool/build_release.sh "$TAG"
+          else
+            echo "No tool/build_release.sh; publishing notes only."
+          fi
+      - name: Attest build provenance
+        if: vars.ATTEST_RELEASES == 'true'
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4
+        with:
+          subject-path: dist/release/*
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: release-${{ github.ref_name }}
+          path: dist/release/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+          PUBLISH: ${{ vars.RELEASE_PUBLISH }}
+        run: |
+          draft=--draft
+          if [[ "$PUBLISH" == true ]]; then draft=; fi
+          gh release create "$TAG" --verify-tag $draft --title "$TAG" \
+            --notes-file dist/release/RELEASE_NOTES.md dist/release/*
